@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="loginstyle.css">
+    <title>Login</title>
+    <!-- Include the Google Sign-In script -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        // Initialize the Google auth library
+        function onLoad() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: '246720971067-9kn63ai7hd76inio363bovu78ikqjtrv.apps.googleusercontent.com' // Replace with your actual client ID
+                });
+            });
+        }
+
+        // Handle the sign-in process
+        function signInWithGoogle() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signIn().then(function(googleUser) {
+                var profile = googleUser.getBasicProfile();
+                var name = profile.getName();
+                var email = profile.getEmail();
+
+                // Create a form to send data via POST to your PHP script
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'http://localhost/PWManager-main/googlesignin/login.php';
+
+                var nameField = document.createElement('input');
+                nameField.type = 'hidden';
+                nameField.name = 'name';
+                nameField.value = name;
+                form.appendChild(nameField);
+
+                var emailField = document.createElement('input');
+                emailField.type = 'hidden';
+                emailField.name = 'email';
+                emailField.value = email;
+                form.appendChild(emailField);
+
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
+    </script>
+</head>
+<body onload="onLoad()">
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <h1>Login Here</h1>
+    <div class="passwordList">
+        <form class="index" action="login.php" method="post">
+            <label for="username">Username</label>
+            <input type="text" placeholder="Email or Phone" id="username" name="username" required>
+            <label for="password">Password</label>
+            <input type="password" placeholder="Password" id="password" name="password" required>
+            <button id="loginButton">Log In</button>
+            <button class="google-signin-button" onclick="signInWithGoogle()">Sign in with Google</button>
+        </form>
+        <!-- "Sign in with Google" button -->
+    </div>
+</body>
+</html>

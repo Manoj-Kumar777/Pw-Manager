@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="loginstyle.css">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <div class="index">
+    <form action="register.php" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" onChange="onChange()" required><br>
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" onChange="onChange()" required><br>
+        <input type="submit" value="Register">
+        <div id="warningBox" class="warning-box"></div>
+    </form>
+</div>
+    <script>
+        var warningBox = document.getElementById('warningBox');
+        var field1 = document.getElementById('password');
+        var field2 = document.getElementById('confirm_password');
+
+        function checkFields() {
+            var field1Value = password.value;
+            var field2Value = confirm_password.value;
+
+            if (field1Value === field2Value) {
+                warningBox.style.display = 'none';
+            } else {
+                warningBox.textContent = "Passwords do not match";
+                warningBox.style.display = 'block';
+            }
+        }
+        field1.addEventListener('input', checkFields);
+        field2.addEventListener('input', checkFields);
+    </script>
+</body>
+</html>
